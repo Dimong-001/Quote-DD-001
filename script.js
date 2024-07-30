@@ -1,75 +1,69 @@
+const quoteContainer =document.getElementById('quote-container');
+const quoteText =document.getElementById('quote');
+const authorText =document.getElementById('author');
+const twitterBtn =document.getElementById('twitter');
+const newQuoteBtn =document.getElementById('new-quote');
+const loader=document.getElementById('loader');
 
-// window.console.log('testing');
-const quoteContainer    = document.getElementById('quote-container');
-const quoteText    = document.getElementById('quote');
-const authorText    = document.getElementById('author');
-const twitterBtn    = document.getElementById('twitter');
-const newQuoteBtn    = document.getElementById('new-quote');
-const loader =document.getElementById('loader');
-
-
-let apiQuotes = [];
-
-// show loading
-function loading(){
+// Show loading
+function loading()
+{
     loader.hidden=false;
-    quoteContainer.hidden=true;
+    quoteContainer.hidden =true;
 }
 // hide loading
 function complete(){
-    quoteContainer.hidden=false;
-    loader.hidden = true;
+    if(!loader.hidden){
+        quoteContainer.hidden=false;
+        loader.hidden=true;
+    }
 }
 
-
-
-//show new quote
-function newQuote(){    
+// Get quote from API
+async function getQuote() {
     loading();
-    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    // console.log(quote);
-    // authorText.textContent = quote.author;
-    // Check if author filed is blank and replace  it with 'Unknown'
-    if (!quote.author){
-        authorText.textContent='Unkown';
-    }else{
-        authorText.textContent=quote.author;
-    }
-    // check quote length to determine styling
-    if(quote.text.length > 120){
+    const proxyUrl = 'https://corsproxy.io/?';
+    const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+    try {
+      const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+      const data = await response.json();
+    //   If author is blak add unkown
+      if (data.quoteAuthor === ''){
+        authorText.innerText = 'Unknown';
+      }else{
+        authorText.innerText= data.quoteAuthor;
+      }
+      // Reduce font size for long quotes
+      if(data.quoteText,length > 50){
         quoteText.classList.add('long-quote');
-    }else{
+      }else{
         quoteText.classList.remove('long-quote');
-    }
-    // set quote , hide loader
-    quoteText.textContent = quote.text;
+      }
+    //   authorText.innerText = data.quoteAuthor;
+      quoteText.innerText = data.quoteText;
+    //   const quoteObj = JSON.parse(data.contents);
+
+    //   console.log(quoteObj);
+    // stoploader,show quote
     complete();
-}
-
-// Get Quotes from API
-async function getQuotes(){
-    const apiUrl='https://jacintodesign.github.io/quotes-api/data/quotes.json';
-    try{
-        const response = await fetch(apiUrl);
-        apiQuotes = await response.json();
-        // console.log(apiQuotes[12]);
-        newQuote();
-    }catch(error){
-        //Catch error here
+    } catch (error) {
+    //   console.log('whoops, no quote', error);
     }
-}
-// Tweet quote
-function tweetQuote(){
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent};`
-    window.open(twitterUrl, '_blank');
-}
-
-// Event Listeners
-newQuoteBtn.addEventListener('click', newQuote);
-twitterBtn.addEventListener('click', tweetQuote);
+  }
 
 
-// on load
+// Tweet Quote
+  function tweetQuote(){
+    const quote= quoteText.innerText;
+    const author= authorText.innerText;
+    const twitterUrl=`https://twitter.com/intent/tweet?text=${quote} - ${author}`;
+    window.open(twitterUrl,'_blank');
 
-getQuotes();
-// loading();
+  }
+
+//   event listeners
+newQuoteBtn.addEventListener('click', getQuote);
+twitterBtn.addEventListener('click',tweetQuote);
+   
+  // On Load
+  getQuote();
