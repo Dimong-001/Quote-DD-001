@@ -8,6 +8,12 @@
     <!-- <link rel="stylesheet" href="script.js"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <meta property="og:title" content="Quote Generator">
+    <meta property="og:description" content="Get inspired by random quotes!">
+    <meta property="og:url" content="https://github.com/Dimong-001/Quote-DD-001.git">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://example.com/path/to/image.jpg"> <!-- Replace with an actual image URL -->
 </head>
 <body>
     <div class="quote-container" id="quote-container">
@@ -36,5 +42,15 @@
     <div class="loader" id="loader"></div>
  
      <script src="script.js"></script>
+     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : 'YOUR_APP_ID', // Replace 'YOUR_APP_ID' with your Facebook app ID
+            xfbml      : true,
+            version    : 'v12.0'
+        });
+    };
+    </script>
 </body>
 </html>

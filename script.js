@@ -62,11 +62,14 @@ async function getQuote() {
 
   }
   // Share Quote on Facebook
-function shareQuoteOnFacebook() {
-  const quote = quoteText.innerText;
-  const author = authorText.innerText;
-  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(quote)} - ${encodeURIComponent(author)}`;
-  window.open(facebookUrl, '_blank');
+  function shareQuoteOnFacebook() {
+    const quote = quoteText.innerText;
+    const author = authorText.innerText;
+    FB.ui({
+        method: 'share',
+        href: window.location.href,
+        quote: `${quote} - ${author}`
+    }, function(response){});
 }
 
 //   event listeners
