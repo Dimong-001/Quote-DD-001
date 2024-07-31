@@ -80,6 +80,12 @@ button:active{
 .fa-twitter{
     font-size: 1.5rem;
 }
+.facebook-button:hover {
+    color: #3b5998;
+}
+.fa-twitter, .fa-facebook {
+    font-size: 1.5rem;
+}
 /* Media Query: Tablet or Smalleer */
 @media screen and (max-weidth:1000px) {
  .quote-container{

@@ -4,6 +4,7 @@ const authorText =document.getElementById('author');
 const twitterBtn =document.getElementById('twitter');
 const newQuoteBtn =document.getElementById('new-quote');
 const loader=document.getElementById('loader');
+const facebookBtn = document.getElementById('facebook'); // Added Facebook button reference
 
 // Show loading
 function loading()
@@ -60,10 +61,17 @@ async function getQuote() {
     window.open(twitterUrl,'_blank');
 
   }
+  // Share Quote on Facebook
+function shareQuoteOnFacebook() {
+  const quote = quoteText.innerText;
+  const author = authorText.innerText;
+  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(quote)} - ${encodeURIComponent(author)}`;
+  window.open(facebookUrl, '_blank');
+}
 
 //   event listeners
 newQuoteBtn.addEventListener('click', getQuote);
 twitterBtn.addEventListener('click',tweetQuote);
-   
+facebookBtn.addEventListener('click', shareQuoteOnFacebook); // Added event listener for Facebook button   
   // On Load
   getQuote();
